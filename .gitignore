@@ -1,0 +1,13 @@
+.idea
+
+Mafia.Api/bin
+Mafia.Api/obj
+
+Mafia.Console/obj
+Mafia.Console/bin
+
+Mafia.Engine/bin
+Mafia.Engine/obj
+
+Mafia.Engine.Tesat/obj
+Mafia.Engine.Tesat/bin

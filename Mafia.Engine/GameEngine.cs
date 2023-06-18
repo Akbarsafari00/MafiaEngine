@@ -111,11 +111,18 @@ public class GameEngine
         //     _state.Action = GameAction.Pending;
         // }
 
-        // if (_state.CurrentRound.Stage==GameStage.Day && _state.Action == GameAction.Finished)
-        // {
-        //     _state.CurrentRound.Stage = GameStage.Evening;
-        //     _state.Action = GameAction.Pending;
-        // }
+        if (_state.CurrentRound.Stage==GameStage.Day && _state.Action == GameAction.Finished)
+        {
+            _state.CurrentRound.Stage = GameStage.Evening;
+            _state.Action = GameAction.Pending;
+        }
+        
+        
+        if (_state.CurrentRound.Stage==GameStage.Evening && _state.Action == GameAction.Finished)
+        {
+            _state.CurrentRound.Stage = GameStage.Night;
+            _state.Action = GameAction.Pending;
+        }
 
         switch (_state.CurrentRound.Stage)
         {
@@ -145,7 +152,11 @@ public class GameEngine
 
     private void EveningProcess()
     {
-        if (_state.Action == GameAction.Pending)
+        if (_state.Action == GameAction.Pending && _state.CurrentDay == 0)
+        {
+            _state.Action = GameAction.Finished;
+        }
+        else if (_state.Action == GameAction.Pending)
         {
             _state.Action = GameAction.Voting;
             

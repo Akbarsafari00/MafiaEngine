@@ -58,7 +58,7 @@ while (true)
         state = engine.Execute();
             
     }
-    else if (state.CurrentRound?.Stage == GameStage.Evening && state.Action == GameAction.Pending && state.CurrentDay == 0)
+    else if (state.CurrentRound?.Stage == GameStage.Evening && state.Action == GameAction.Finished && state.CurrentDay == 0)
     {
         Console.WriteLine($"\n Message : Dar Roz Moarefe Ray giri nadarim v b shab moarefe miravim");
         Console.WriteLine("\n ** Berim Shab **");

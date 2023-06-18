@@ -1,12 +1,12 @@
-﻿using Mafia.Engine.Models;
-using Mafia.Engine.Models.Cards;
+﻿using Mafia.Engine.Models.Cards;
 
-namespace Mafia.Engine;
+namespace Mafia.Engine.Models;
 
 public class Player
 {
+    public Guid Id { get; set; }
+    public bool IsDead { get; set; } = false ;
     public Users User { get; set; }
     public Card? Card { get; set; }
-    public bool HaveChallenge { get; set; } = false;
-    public int Index { get; set; }
+    public int TurnNumber { get; set; }
 }

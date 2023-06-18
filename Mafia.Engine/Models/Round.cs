@@ -2,7 +2,11 @@
 
 public class Round
 {
-    public int Number { get; set; }
-    public List<PlayerVotes> Votes { get; set; }
-    public List<Player> NightKills { get; set; }
+    public GameStage Stage { get; set; }
+    
+    public int TurnNumber { get; set; }
+    
+    public List<RoundPlayer> RoundPlayers { get; set; } = new List<RoundPlayer>();
+    public List<Player> NightKills { get; set; } = new List<Player>();
+    public GameStage NextStage { get; set; }
 }

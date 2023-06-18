@@ -30,7 +30,7 @@ public class GodFatherScenarioTest
     [Test]
     public void ShuffleRolesTest()
     {
-        engine.ShuffleRoles();
+        engine.ShuffleCards();
         while (true)
         {
             Console.ReadLine();

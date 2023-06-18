@@ -61,6 +61,13 @@ public class GameEngine
     {
         var players = _state.Players.ToList();
 
+        foreach (var role in _cards.Where(x => x.Side == CardSide.Independent))
+        {
+            var player = players.PickRandom();
+            _state.Players.First(x => x.TurnNumber == player.TurnNumber).Card = role;
+            players.Remove(player);
+        }
+        
         foreach (var role in _cards.Where(x => x.Side == CardSide.Mafia))
         {
             var player = players.PickRandom();
@@ -122,6 +129,11 @@ public class GameEngine
         {
             _state.CurrentRound.Stage = GameStage.Night;
             _state.Action = GameAction.Pending;
+            _state.Players = _state.Players.Select(x =>
+            {
+                x.IsWakeUp = false;
+                return x;
+            }).ToList();
         }
 
         switch (_state.CurrentRound.Stage)
@@ -147,7 +159,35 @@ public class GameEngine
 
     private void NightProcess()
     {
-        throw new NotImplementedException();
+        
+        if (_state.CurrentPlayer.IsWakeUp && _state.CurrentDay == 0 && _state.CurrentCard.HasInterViewAct)
+        {
+            _state.Action = GameAction.Acting;
+            _state.CurrentPlayer = _state.Players.First(x => x.Card?.Name == _state.CurrentCard.Name);
+            _state.CurrentCard.HasInterViewAct = false;
+            return;
+        }
+        
+        if (_state.CurrentPlayer.IsWakeUp && _state.CurrentDay == 0 && !_state.CurrentCard.HasInterViewAct)
+        {
+            _state.Action = GameAction.Sleep;
+            _state.CurrentPlayer = _state.Players.First(x => x.Card?.Name == _state.CurrentCard.Name);
+            _state.CurrentPlayer.IsWakeUp = false;
+            return;
+        }
+        
+        _state.CurrentCard = _state.CurrentCard == null
+            ? _cards.OrderBy(x => x.Order).First()
+            : _cards.OrderBy(x => x.Order).First(x => x.Order > _state.CurrentCard.Order);
+
+        if (_state.CurrentCard.Side==CardSide.Mafia)    
+        {
+            var cards
+        }
+        
+        _state.CurrentPlayer = _state.Players.First(x => x.Card?.Name == _state.CurrentCard.Name);
+        _state.CurrentPlayer.IsWakeUp = true;
+        _state.Action = GameAction.WakeUp;
     }
 
     private void EveningProcess()

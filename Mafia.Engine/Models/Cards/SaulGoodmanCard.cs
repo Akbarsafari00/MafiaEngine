@@ -2,7 +2,12 @@
 
 public class SaulGoodmanCard : Card
 {
-    public SaulGoodmanCard() : base("سائول گودمن", CardSide.Mafia, true,"")
+    public SaulGoodmanCard(int order) : base("سائول گودمن", CardSide.Mafia, true,order)
     {
+    }
+
+    public override void Act(List<Player> Players)
+    {
+        throw new NotImplementedException();
     }
 }

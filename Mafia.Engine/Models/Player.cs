@@ -9,4 +9,5 @@ public class Player
     public Users User { get; set; }
     public Card? Card { get; set; }
     public int TurnNumber { get; set; }
+    public bool IsWakeUp { get; set; } = true;
 }

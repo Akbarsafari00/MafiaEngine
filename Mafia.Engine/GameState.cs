@@ -1,4 +1,5 @@
 ﻿using Mafia.Engine.Models;
+using Mafia.Engine.Models.Cards;
 
 namespace Mafia.Engine;
 
@@ -12,6 +13,7 @@ public class GameState
     public int CurrentDay { get; set; }
     public GameAction Action { get; set; }
     public Player? CurrentPlayer { get; set; }
+    public Card? CurrentCard { get; set; }
 }
 
 public enum GameStage
@@ -21,5 +23,6 @@ public enum GameStage
 
 public enum GameAction
 {
-    Pending,Talking,Voting,Acting,Finished
+    Pending,Talking,Voting,WakeUp,Acting,Finished,
+    Sleep
 }

@@ -2,7 +2,12 @@
 
 public class GodFatherCard : Card
 {
-    public GodFatherCard() : base("پدرخوانده", CardSide.Mafia, true,"")
+    public GodFatherCard(int order) : base("پدرخوانده", CardSide.Mafia, true,order)
     {
+    }
+
+    public override void Act(List<Player> Players)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -2,7 +2,12 @@
 
 public class CitizenCard : Card
 {
-    public CitizenCard() : base("شهروند", CardSide.Citizen, false,"")
+    public CitizenCard(int order) : base("شهروند", CardSide.Citizen, false,order)
     {
+    }
+
+    public override void Act(List<Player> Players)
+    {
+        throw new NotImplementedException();
     }
 }

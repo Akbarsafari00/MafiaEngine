@@ -2,7 +2,12 @@
 
 public class LeonTheProfessionalCard : Card
 {
-    public LeonTheProfessionalCard() : base("لئون حرفه ای", CardSide.Citizen, true,"")
+    public LeonTheProfessionalCard(int order) : base("لئون حرفه ای", CardSide.Citizen, true,order)
     {
+    }
+
+    public override void Act(List<Player> Players)
+    {
+        throw new NotImplementedException();
     }
 }

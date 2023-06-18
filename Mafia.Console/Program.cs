@@ -1,5 +1,6 @@
 ﻿using Mafia.Engine;
 using Mafia.Engine.Models;
+using Mafia.Engine.Models.Cards;
 
 Console.WriteLine("Please Choose Scenario To Start.");
 Console.ReadLine();
@@ -62,6 +63,31 @@ while (true)
     {
         Console.WriteLine($"\n Message : Dar Roz Moarefe Ray giri nadarim v b shab moarefe miravim");
         Console.WriteLine("\n ** Berim Shab **");
+        Console.ReadLine();
+        state = engine.Execute();
+            
+    }
+    else if (state.CurrentRound?.Stage == GameStage.Night && state.Action == GameAction.WakeUp && state.CurrentDay == 0)
+    {
+        Console.WriteLine($"\n {state.CurrentCard.GetType().Name} Bidar Beshavad.");
+        Console.WriteLine("\n ** Bidar Shod **");
+        Console.ReadLine();
+        state = engine.Execute();
+            
+    }
+    else if (state.CurrentRound?.Stage == GameStage.Night && state.Action == GameAction.Acting && state.CurrentDay == 0)
+    {
+        Console.WriteLine($"\n {state.CurrentCard.GetType().Name} Act Khod Ra Anjam Dahad.");
+        Console.WriteLine($"\n Shomare Nafarat Khod Ra Elam Knid");
+        var res = Console.ReadLine();
+        Console.WriteLine("\n ** Act Anjam Shod **");
+        state = engine.Execute();
+            
+    }
+    else if (state.CurrentRound?.Stage == GameStage.Night && state.Action == GameAction.Sleep)
+    {
+        Console.WriteLine($"\n {state.CurrentCard.GetType().Name} Bekhabad.");
+        Console.WriteLine("\n ** Khabid Shod **");
         Console.ReadLine();
         state = engine.Execute();
             

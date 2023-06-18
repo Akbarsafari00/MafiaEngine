@@ -27,25 +27,44 @@ foreach (var player in engine.Players())
     Console.WriteLine($"- {player.User.Name} [{player.Card?.GetType().Name}]");
 }
 
+
 var state = engine.GetState();
+
+// Day - Pending
+
 while (true)
 {
-    if (state.CurrentRound.NextStage == GameStage.Day)
+    if (state.CurrentRound?.Stage == GameStage.Day && state.Action == GameAction.Pending && state.CurrentDay == 0)
     {
-        if (state.Action == GameAction.Pending)
-        {
-            Console.WriteLine("\n Press Enter To Start Talking . ");
+            Console.WriteLine("\n Message : Bazikonan Shoro Be Sohbat Baraye Moarefeh Mikonn");
+            Console.WriteLine("\n ** Shoro **");
             Console.ReadLine();
             state = engine.Execute();
-            PrintInformation();
-        }
-        else
-        {
-            Console.WriteLine($"\n Press Enter To Start Talk : [{state.CurrentPlayer?.User.Name}] ");
-            Console.ReadLine();
-            state = engine.Execute();
-            PrintInformation();
-        }
+            
+    }
+    else if (state.CurrentRound?.Stage == GameStage.Day && state.Action == GameAction.Talking && state.CurrentDay == 0)
+    {
+        Console.WriteLine($"\n Message : Bazikon [{state.CurrentPlayer.TurnNumber}][{state.CurrentPlayer.User.Name}] Dar Hal Moarefe Khod Ast");
+        Console.WriteLine("\n ** Nafar Badi **");
+        Console.ReadLine();
+        state = engine.Execute();
+            
+    }
+    else if (state.CurrentRound?.Stage == GameStage.Day && state.Action == GameAction.Finished && state.CurrentDay == 0)
+    {
+        Console.WriteLine($"\n Message : Bazikon [{state.CurrentPlayer.TurnNumber}][{state.CurrentPlayer.User.Name}] Dar Hal Moarefe Khod Ast");
+        Console.WriteLine("\n ** Etmam Goftego **");
+        Console.ReadLine();
+        state = engine.Execute();
+            
+    }
+    else if (state.CurrentRound?.Stage == GameStage.Evening && state.Action == GameAction.Pending && state.CurrentDay == 0)
+    {
+        Console.WriteLine($"\n Message : Dar Roz Moarefe Ray giri nadarim v b shab moarefe miravim");
+        Console.WriteLine("\n ** Berim Shab **");
+        Console.ReadLine();
+        state = engine.Execute();
+            
     }
     else if (state.CurrentRound.NextStage == GameStage.Evening)
     {
@@ -54,7 +73,6 @@ while (true)
             Console.WriteLine("\n Press Enter To Start Voting . ");
             Console.ReadLine();
             state = engine.Execute();
-            PrintInformation();
         }
         else
         {
@@ -62,19 +80,18 @@ while (true)
             var vote=  int.Parse((string.IsNullOrWhiteSpace(Console.ReadLine())?"0":Console.ReadLine()) ?? string.Empty);
             if (state.CurrentPlayer != null) engine.Vote(state.CurrentPlayer, vote);
             state = engine.Execute();
-
-            PrintInformation();
         }
         
     }
     
+    PrintInformation();
    
 }
 
  void PrintInformation()
 {
-    Console.WriteLine($"TurnNumber : {state.CurrentPlayer?.TurnNumber} ");
-    Console.WriteLine($"Player : {state.CurrentPlayer?.User.Name} ");
-    Console.WriteLine($"Stage : {state.CurrentRound.NextStage} ");
-    Console.WriteLine($"Action : {state.Action} ");
+    // Console.WriteLine($"TurnNumber : {state.CurrentPlayer?.TurnNumber} ");
+    // Console.WriteLine($"Player : {state.CurrentPlayer?.User.Name} ");
+    // Console.WriteLine($"Stage : {state.CurrentRound.Stage} ");
+    // Console.WriteLine($"Action : {state.Action} ");
 }

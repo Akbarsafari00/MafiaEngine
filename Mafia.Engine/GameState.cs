@@ -21,5 +21,5 @@ public enum GameStage
 
 public enum GameAction
 {
-    Pending,Talking,Voting,Acting
+    Pending,Talking,Voting,Acting,Finished
 }

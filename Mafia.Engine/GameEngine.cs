@@ -18,7 +18,7 @@ public class GameEngine
         {
             Action = GameAction.Pending,
           
-            CurrentDay = hasInterviewDay ? 1 : 0,
+            CurrentDay = hasInterviewDay ? 0 : 1,
             hasInterviewDay = hasInterviewDay,
             Players = new List<Player>(),
             Rounds = new List<Round>()
@@ -27,7 +27,7 @@ public class GameEngine
                 {
                     NextStage = hasInterviewDay ? GameStage.Day : GameStage.Night,
                     Stage = hasInterviewDay ? GameStage.Day : GameStage.Night,
-                    TurnNumber = hasInterviewDay ? 1 : 0,
+                    TurnNumber = hasInterviewDay ? 0 : 1,
                 }
             },
             Id = Guid.NewGuid()
@@ -103,14 +103,19 @@ public class GameEngine
         {
             throw new Exception("Not Found Player With Role");
         }
+        //
+        // if ( _state.CurrentRound.Stage != _state.CurrentRound.NextStage)
+        // {
+        //     _state.CurrentRound.Stage = _state.CurrentRound.NextStage;
+        //     _state.CurrentPlayer = null;
+        //     _state.Action = GameAction.Pending;
+        // }
 
-        if ( _state.CurrentRound.Stage != _state.CurrentRound.NextStage)
-        {
-            _state.CurrentRound.Stage = _state.CurrentRound.NextStage;
-            _state.CurrentPlayer = null;
-            _state.Action = GameAction.Pending;
-        }
-       
+        // if (_state.CurrentRound.Stage==GameStage.Day && _state.Action == GameAction.Finished)
+        // {
+        //     _state.CurrentRound.Stage = GameStage.Evening;
+        //     _state.Action = GameAction.Pending;
+        // }
 
         switch (_state.CurrentRound.Stage)
         {
@@ -167,9 +172,9 @@ public class GameEngine
 
     private void DayProcess()
     {
-        
-        
-        if (_state.Action == GameAction.Pending)
+
+       
+         if (_state.Action == GameAction.Pending)
         {
             _state.Action = GameAction.Talking;
             _state.CurrentPlayer = _state.CurrentPlayer == null
@@ -182,11 +187,11 @@ public class GameEngine
                 ? _state.CurrentRound?.RoundPlayers.First(x => x.Player.TurnNumber == 1).Player
                 : _state.CurrentRound?.RoundPlayers.First(x => x.Player.TurnNumber == _state.CurrentPlayer.TurnNumber + 1).Player;
             _state.Action = GameAction.Talking;
-
+            
             if (IsLastPlayer())
             {
-                _state.CurrentRound.NextStage = GameStage.Evening;
-                _state.Action = GameAction.Pending;
+                _state.Action = GameAction.Finished;
+            
             }
         }
     }

@@ -1,4 +1,5 @@
 using Mafia.Engine.Models;
+using Mafia.Engine.Models.Cards;
 
 namespace Mafia.Engine;
 
@@ -23,19 +24,11 @@ public class MafiaInstance
     public int CurrentDay { get; set; }
     public bool HaveInterviewDay { get; set; }
 
-    public List<Roles> Roles = new List<Roles>();
+    public List<Card> Roles = new List<Card>();
     public List<Users> Users = new List<Users>();
 
     public  List<Player> Players = new List<Player>();
-    public void AddRole(Roles role)
-    {
-        Roles.Add(role);   
-    }
     
-    public void AddUser(Users user)
-    {
-        Users.Add(user);   
-    }
 
 
 

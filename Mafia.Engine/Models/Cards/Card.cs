@@ -1,8 +1,8 @@
-namespace Mafia.Engine.Models;
+namespace Mafia.Engine.Models.Cards;
 
-public class Roles
+public class Card
 {
-    public Roles(string name, RoleSide side,bool hasAbility , string description = "")
+    public Card(string name, CardSide side,bool hasAbility, string description = "")
     {
         Name = name;
         Description = description;
@@ -12,13 +12,13 @@ public class Roles
 
     public string Name { get; set; }
     public string Description { get; set; }
-    public RoleSide Side { get; set; }
+    public CardSide Side { get; set; }
     public bool HasAbility { get; set; }
 }
 
-public enum RoleSide
+public enum CardSide
 {
-    None,Mafia,Citizen,
-    
+    Independent,Mafia,Citizen,
 }
+
 

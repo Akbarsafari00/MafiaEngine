@@ -6,7 +6,7 @@ public class Round
     
     public int TurnNumber { get; set; }
     
-    public List<RoundPlayer> RoundPlayers { get; set; } = new List<RoundPlayer>();
-    public List<Player> NightKills { get; set; } = new List<Player>();
+    public List<RoundPlayer> RoundPlayers { get; set; } = new();
+    public List<Player> NightKills { get; set; } = new();
     public GameStage NextStage { get; set; }
 }

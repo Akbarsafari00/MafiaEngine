@@ -182,7 +182,6 @@ public class GameEngine
 
         if (_state.CurrentCard.Side==CardSide.Mafia)    
         {
-            var cards
         }
         
         _state.CurrentPlayer = _state.Players.First(x => x.Card?.Name == _state.CurrentCard.Name);

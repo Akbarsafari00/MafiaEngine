@@ -4,21 +4,25 @@ namespace Mafia.Engine.Models;
 
 public class Activity 
 {
-    public Activity(ActivityAction action,ActivityType type, ActivityStage activityStage,  Card? card = null, Player? player = null )
+    public Activity(ActivityAction action,ActivityType type, ActivityStage stage, Card? card = null, Player? player = null , int order = 0,bool isInterViewDay  = false)
     {
         Id = Guid.NewGuid();
         Type = type;
-        ActivityStage = activityStage;
+        Stage = stage;
+        IsInterViewDay = isInterViewDay;
         Action = action;
         Player = player;
+        Order = order;
     }
 
     public Guid Id { get; set; }
     public ActivityAction Action { get; set; }
     public ActivityType Type { get; set; }
-    public ActivityStage ActivityStage { get; set; }
+    public ActivityStage Stage { get; set; }
+    public bool IsInterViewDay { get; set; }
     public Player? Player { get; set; }
     public Card? Card { get; set; }
+    public int Order { get; set; }
 }
 
 

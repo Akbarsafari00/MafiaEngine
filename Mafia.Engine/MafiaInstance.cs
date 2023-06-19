@@ -24,10 +24,10 @@ public class MafiaInstance
     public int CurrentDay { get; set; }
     public bool HaveInterviewDay { get; set; }
 
-    public List<Card> Roles = new List<Card>();
-    public List<Users> Users = new List<Users>();
+    public List<Card> Roles = new();
+    public List<Users> Users = new();
 
-    public  List<Player> Players = new List<Player>();
+    public  List<Player> Players = new();
     
 
 

@@ -4,7 +4,7 @@ namespace Mafia.Engine.Models.Scenarios;
 
 public class GodFatherScenario : IScenario
 {
-    public bool hasInterviewDay  => true;
+    public bool hasInterviewDay => true;
 
     public List<Card> Cards => new()
     {
@@ -19,51 +19,121 @@ public class GodFatherScenario : IScenario
         new LeonTheProfessionalCard(6)
     };
 
-    public List<Activity> InterViewTemplates =>  new()
+    public List<Step> InterViewTemplates => new()
     {
-        new Activity(ActivityAction.ForSingle, ActivityType.Wait, ActivityStage.Day , isInterViewDay:true),
-        new Activity(ActivityAction.ForEachPlayer, ActivityType.Speak, ActivityStage.Day, isInterViewDay:true),
+        new Step(ActivityAction.None,(state , player) =>
+        {
+           
+            state = new GameState()
+            {
+                Id = Guid.NewGuid(),
+                Rounds = new List<Round>()
+                {
+                    new()
+                    {
+                        IsCurrentRound = true,
+                        IsInterview = true,
+                        RoundPlayers = state.Players.Select(x => new RoundPlayer()
+                        {
+                            Player = x,
+                            IsTalked = false,
+                            VoteCount = 0
+                        }).ToList()
+                    }
+                },
+                Message = "Bazi ro shoro knim ?",
+                Stage = StepStage.Morning,
+                Type = StepType.Note,
+            };
+        }),
 
-        new Activity(ActivityAction.ForSingle, ActivityType.Vote, ActivityStage.Evening, isInterViewDay:true),
+        new Step(ActivityAction.None,(state , player) =>
+        {
+            state.Stage = StepStage.Day;
+            state.Type = StepType.InterviewSpeak;
+            state.Message = "Khob Mirim Baraye Sohbat haye Marefeh :)";
+        }),
 
-        new Activity(ActivityAction.ForSingle, ActivityType.SleepAlLPlayer, ActivityStage.Night, isInterViewDay:true),
+        new Step(ActivityAction.LoopPlayer,(state , player) =>
+        {
+            state.Stage = StepStage.Day;
+            state.Type = StepType.InterviewSpeak;
+            state.Message = "Khob Mirim Baraye Sohbat haye Marefeh :)";
+        }),
 
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUp, ActivityStage.Night, new NostradamusCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.NightAct, ActivityStage.Night, new NostradamusCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.Sleep, ActivityStage.Night, new NostradamusCard(0), isInterViewDay:true),
-
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUp, ActivityStage.Night, new GodFatherCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUp, ActivityStage.Night, new MatadorCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUp, ActivityStage.Night, new SaulGoodmanCard(0), isInterViewDay:true),
-
-        new Activity(ActivityAction.ForSingle, ActivityType.ShowLike, ActivityStage.Night, new GodFatherCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.ShowLike, ActivityStage.Night, new MatadorCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.ShowLike, ActivityStage.Night, new SaulGoodmanCard(0), isInterViewDay:true),
-
-        new Activity(ActivityAction.ForSingle, ActivityType.SleepAllMafia, ActivityStage.Night, isInterViewDay:true),
-
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUp, ActivityStage.Night, new CitizenKaneCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.ShowLike, ActivityStage.Night, new CitizenKaneCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.Sleep, ActivityStage.Night, new CitizenKaneCard(0), isInterViewDay:true),
-
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUp, ActivityStage.Night, new DrWatsonCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.ShowLike, ActivityStage.Night, new DrWatsonCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.Sleep, ActivityStage.Night, new DrWatsonCard(0), isInterViewDay:true),
-
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUp, ActivityStage.Night,
-            new LeonTheProfessionalCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.ShowLike, ActivityStage.Night,
-            new LeonTheProfessionalCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.Sleep, ActivityStage.Night, new LeonTheProfessionalCard(0), isInterViewDay:true),
-
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUp, ActivityStage.Night, new ConstantineCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.ShowLike, ActivityStage.Night, new ConstantineCard(0), isInterViewDay:true),
-        new Activity(ActivityAction.ForSingle, ActivityType.Sleep, ActivityStage.Night, new ConstantineCard(0), isInterViewDay:true),
-
-        new Activity(ActivityAction.ForSingle, ActivityType.WakeUpAll, ActivityStage.Night, isInterViewDay:true),
-
+        // new Step(StepAudience.All, StepAction.None, StepType.Vote, StepStage.Evening,
+        //     isInterViewDay: true),
+        //
+        // new Step(StepAudience.All, StepAction.None, StepType.Sleep, StepStage.Night,
+        //     isInterViewDay: true),
+        //
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.WakeUp, StepStage.Night,
+        //     new NostradamusCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.NightAct,
+        //     StepStage.Night, new NostradamusCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.Sleep, StepStage.Night,
+        //     new NostradamusCard(0), isInterViewDay: true),
+        //
+        // new Step(StepAudience.Mafia, StepAction.PlayerFromCard, StepType.WakeUp, StepStage.Night,
+        //     new GodFatherCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Mafia, StepAction.PlayerFromCard, StepType.WakeUp, StepStage.Night,
+        //     new MatadorCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Mafia, StepAction.PlayerFromCard, StepType.WakeUp, StepStage.Night,
+        //     new SaulGoodmanCard(0), isInterViewDay: true),
+        //
+        // new Step(StepAudience.Mafia, StepAction.PlayerFromCard, StepType.ShowLike, StepStage.Night,
+        //     new GodFatherCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Mafia, StepAction.PlayerFromCard, StepType.ShowLike, StepStage.Night,
+        //     new MatadorCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Mafia, StepAction.PlayerFromCard, StepType.ShowLike, StepStage.Night,
+        //     new SaulGoodmanCard(0), isInterViewDay: true),
+        //
+        // new Step(StepAudience.MafiaGroup, StepAction.None, StepType.Sleep, StepStage.Night,
+        //     isInterViewDay: true),
+        //
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.WakeUp, StepStage.Night,
+        //     new CitizenKaneCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.ShowLike,
+        //     StepStage.Night, new CitizenKaneCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.Sleep, StepStage.Night,
+        //     new CitizenKaneCard(0), isInterViewDay: true),
+        //
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.WakeUp, StepStage.Night,
+        //     new DrWatsonCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.ShowLike,
+        //     StepStage.Night, new DrWatsonCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.Sleep, StepStage.Night,
+        //     new DrWatsonCard(0), isInterViewDay: true),
+        //
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.WakeUp, StepStage.Night,
+        //     new LeonTheProfessionalCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.ShowLike,
+        //     StepStage.Night,
+        //     new LeonTheProfessionalCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.Sleep, StepStage.Night,
+        //     new LeonTheProfessionalCard(0), isInterViewDay: true),
+        //
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.WakeUp, StepStage.Night,
+        //     new ConstantineCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.ShowLike,
+        //     StepStage.Night, new ConstantineCard(0), isInterViewDay: true),
+        // new Step(StepAudience.Citizen, StepAction.PlayerFromCard, StepType.Sleep, StepStage.Night,
+        //     new ConstantineCard(0), isInterViewDay: true),
+        //
+        // new Step(StepAudience.All, StepAction.None, StepType.WakeUp, StepStage.Night,
+        //     isInterViewDay: true),
     };
 
-
-
+    public List<Step> RoundTemplates => new()
+    {
+        // new Step(StepAudience.All, StepAction.None, StepType.GoodMorning, StepStage.Morning),
+        // new Step(StepAudience.All, StepAction.LoopPlayer, StepType.Speak, StepStage.Day),
+        // new Step(StepAudience.All, StepAction.LoopPlayer, StepType.Vote, StepStage.Evening),
+        // new Step(StepAudience.All, StepAction.None, StepType.CheckVote, StepStage.Evening),
+        // new Step(StepAudience.All, StepAction.LoopDefending, StepType.Defending, StepStage.Evening),
+        // new Step(StepAudience.All, StepAction.LoopDefending, StepType.DefendingVote,
+        //     StepStage.Evening),
+        // new Step(StepAudience.All, StepAction.None, StepType.CheckDefendingVote, StepStage.Evening),
+        // new Step(StepAudience.All, StepAction.None, StepType.LastChangeCard, StepStage.Evening),
+    };
 }

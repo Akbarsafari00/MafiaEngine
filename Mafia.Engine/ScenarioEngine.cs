@@ -10,25 +10,20 @@ public class ScenarioEngine
     private readonly IScenario _scenario;
     private readonly GameState _state;
 
-    private readonly List<Activity> _interviewScenario = new List<Activity>(); 
-    
+    private readonly List<Step> _interviewScenario = new List<Step>();
+
     public ScenarioEngine(IScenario scenario)
     {
         _scenario = scenario;
         _state = new GameState()
         {
-            Action = GameAction.Pending,
-          
-            CurrentDay = scenario.hasInterviewDay ? 0 : 1,
-            hasInterviewDay = scenario.hasInterviewDay,
             Players = new List<Player>(),
             Rounds = new List<Round>()
             {
                 new()
                 {
-                    NextStage = scenario.hasInterviewDay ? GameStage.Day : GameStage.Night,
-                    Stage = scenario.hasInterviewDay ? GameStage.Day : GameStage.Night,
                     TurnNumber = scenario.hasInterviewDay ? 0 : 1,
+                    RoundPlayers = new List<RoundPlayer>()
                 }
             },
             Id = Guid.NewGuid()
@@ -52,7 +47,7 @@ public class ScenarioEngine
             IsTalked = false
         }).ToList();
     }
-    
+
     public void ShuffleCards()
     {
         var players = _state.Players.ToList();
@@ -63,7 +58,7 @@ public class ScenarioEngine
             _state.Players.First(x => x.TurnNumber == player.TurnNumber).Card = role;
             players.Remove(player);
         }
-        
+
         foreach (var role in _scenario.Cards.Where(x => x.Side == CardSide.Mafia))
         {
             var player = players.PickRandom();
@@ -89,29 +84,88 @@ public class ScenarioEngine
 
     public void PrepareGame()
     {
-        int order = 1;
-        foreach (var activity in _scenario.InterViewTemplates)
+        var order = 1;
+        if (_scenario.hasInterviewDay)
         {
-            if (activity.Action == ActivityAction.ForEachPlayer)
+            foreach (var activity in _scenario.InterViewTemplates)
             {
-                foreach (var player in _state.Players.OrderBy(x=>x.TurnNumber))
+                switch (activity.Action)
                 {
-                    _interviewScenario.Add(new Activity(ActivityAction.ForEachPlayer,activity.Type,activity.Stage,activity.Card,player , order:order));
-                    order++;
+                    case ActivityAction.LoopPlayer:
+                    {
+                        foreach (var player in _state.Players.OrderBy(x => x.TurnNumber))
+                        {
+                            activity.SystemAction?.Invoke(_state, player);
+                            
+                            order++;
+                        }
+
+                        break;
+                    }
+                    case ActivityAction.PlayerFromCard:
+                    {
+                        
+                        var player = _state.Players.First(x => x.Card?.Name == activity?.Card?.Name);
+                        
+                        activity.SystemAction?.Invoke(_state, player);
+                        
+                        _interviewScenario.Add(new Step(activity.Audience, StepAction.None, activity.Type,
+                            activity.Stage, player.Card, order: order, player: player,
+                            isInterViewDay: activity.IsInterViewDay));
+                        order++;
+                        break;
+                    }
+                    case ActivityAction.None:
+                    default:
+                        _interviewScenario.Add(new Step(activity.Audience, StepAction.None, activity.Type,
+                            activity.Stage, activity.Card, order: order, isInterViewDay: activity.IsInterViewDay));
+                        order++;
+                        break;
                 }
             }
-            else
+        }
+        
+        foreach (var activity in _scenario.RoundTemplates)
+        {
+            switch (activity.Action)
             {
-                _interviewScenario.Add(new Activity(ActivityAction.ForSingle,activity.Type,activity.Stage,activity.Card , order: order));
-                order++;
+                case ActivityAction.LoopPlayer:
+                {
+                    foreach (var player in _state.Players.OrderBy(x => x.TurnNumber))
+                    {
+                        activity.SystemAction?.Invoke(_state, player);
+                        _interviewScenario.Add(new Step(activity.Audience, activity.Action, activity.Type,
+                            activity.Stage, player.Card, player, order: order,
+                            isInterViewDay: activity.IsInterViewDay));
+                        order++;
+                    }
+
+                    break;
+                }
+                case ActivityAction.PlayerFromCard:
+                {
+                    var player = _state.Players.First(x => x.Card?.Name == activity?.Card?.Name);
+                    
+                    activity.SystemAction?.Invoke(_state, player);
+                    _interviewScenario.Add(new Step(activity.Audience, StepAction.None, activity.Type,
+                        activity.Stage, player.Card, order: order, player: player,
+                        isInterViewDay: activity.IsInterViewDay));
+                    order++;
+                    break;
+                }
+                case ActivityAction.None:
+                default:
+                    _interviewScenario.Add(new Step(activity.Audience, StepAction.None, activity.Type,
+                        activity.Stage, activity.Card, order: order, isInterViewDay: activity.IsInterViewDay));
+                    order++;
+                    break;
             }
         }
     }
-    
-    public Activity Execute(int order  = 0)
-    {
-        return order==0 ? _interviewScenario.First() : _interviewScenario.First(x => x.Order > order);
-    }
 
-    
+    public GameState Execute(int order = 0)
+    {
+        _state.Activity =   order == 0 ? _interviewScenario.First() : _interviewScenario.First(x => x.Order > order);
+        return _state;
+    }
 }

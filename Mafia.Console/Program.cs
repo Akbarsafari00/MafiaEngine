@@ -156,32 +156,118 @@ engine.PrepareGame();
 int order = 0;
 while (true)
 {
-    var activity = engine.Execute(order);
+    var state = engine.Execute(order);
+    var activity = state.Activity;
 
     switch (activity.Stage)
     {
-        case ActivityStage.Day when activity.Type == ActivityType.Wait:
-            Console.WriteLine("Khob berim Rozo Shoro knim ... :)");
+        case StepStage.Morning when activity is { Type: StepType.GoodMorning}:
+            Console.WriteLine("Sobh Bekheir Sohbat rO shoro mikonim ... :)");
+            Console.WriteLine("## Shoro Sohbat ##");
+            Console.ReadLine();
+            break;
+        
+        // Day - Rooze Moarefeh Note
+        case StepStage.Day when activity is { Type: StepType.Note, IsInterViewDay: true }:
+            Console.WriteLine("Khob berim Sohbat ro Shoro knim ... :)");
             Console.WriteLine("## Berim ##");
             Console.ReadLine();
             break;
-        case ActivityStage.Day when activity.Type == ActivityType.Speak &&
-                                    activity.Action == ActivityAction.ForEachPlayer:
-            Console.WriteLine($"[{activity.Player.TurnNumber}] {activity.Player.User.Name} Dare harf Mizane");
+        
+        // Day - Speaking
+        case StepStage.Day when activity is { Audience:StepAudience.All, Type: StepType.Speak, Action: StepAction.LoopPlayer }:
+            Console.WriteLine($"[{activity?.Player?.TurnNumber}] {activity?.Player?.User.Name} Dare harf Mizane");
             Console.WriteLine("## Nafar Badi ##");
             Console.ReadLine();
             break;
-        case ActivityStage.Morning:
-            break;
-        case ActivityStage.Evening when activity.Type == ActivityType.Vote &&
-                                        activity.Action == ActivityAction.ForSingle &&
-                                        activity.IsInterViewDay:
+        
+        // Evening - Rooze Moarefeh
+        case StepStage.Evening when activity is { Type: StepType.Vote, Action: StepAction.None, IsInterViewDay: true }:
             Console.WriteLine($"Dar Roz Moarefeh Raygiri nadrim va mostagim be shab mirim");
             Console.WriteLine("## Shab Mishe ##");
             Console.ReadLine();
             break;
-        case ActivityStage.Night:
+        
+        // Evening - 
+        case StepStage.Evening when activity is { Type: StepType.Vote, Action: StepAction.LoopPlayer, IsInterViewDay: false }:
+            Console.WriteLine($"Ray Giri Baraye [{activity?.Player?.TurnNumber}] {activity?.Player?.User.Name}");
+            Console.WriteLine("## Shab Mishe ##");
+            Console.ReadLine();
             break;
+        
+        
+        case StepStage.Night when activity is {Type:StepType.WakeUp , Audience:StepAudience.All}:
+            Console.WriteLine($"Hame Bidar Beshavand");
+            Console.WriteLine("## Hame Bidar Shodand ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.Sleep , Audience:StepAudience.All}:
+            Console.WriteLine($"Hame Bekhaband");
+            Console.WriteLine("## Hame Khabidand ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.WakeUp , Audience:StepAudience.MafiaGroup}:
+            Console.WriteLine($"Mafia Ha Bidar Shavand");
+            Console.WriteLine("## Mafia Ha Bidar Shodand ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.Sleep , Audience:StepAudience.MafiaGroup}:
+            Console.WriteLine($"Mafia Ha Bkhaband");
+            Console.WriteLine("## Khabidand ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.WakeUp , Audience:StepAudience.Mafia}:
+            Console.WriteLine($"Mafia [{activity?.Player?.TurnNumber}][{activity?.Card?.GetType().Name}] {activity?.Player?.User.Name} Bidar Behsavad");
+            Console.WriteLine("## Bidar Shod ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.WakeUp , Audience: StepAudience.Citizen}:
+            Console.WriteLine($"Shahrvand [{activity?.Player?.TurnNumber}][{activity?.Card?.GetType().Name}] {activity?.Player?.User.Name} Bidar Behsavad");
+            Console.WriteLine("## Bidar Shod ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.ShowLike , Audience:StepAudience.Mafia}:
+            Console.WriteLine($"Mafia [{activity?.Player?.TurnNumber}][{activity?.Card?.GetType().Name}] {activity?.Player?.User.Name} Like Neshan Dahad");
+            Console.WriteLine("## Like Neshan Dad Shod ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.ShowLike , Audience: StepAudience.Citizen}:
+            Console.WriteLine($"Shahrvand [{activity?.Player?.TurnNumber}][{activity?.Card?.GetType().Name}] {activity?.Player?.User.Name} Like Neshan Dahad");
+            Console.WriteLine("## Like Neshan Dad Shod ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.Sleep , Audience:StepAudience.Mafia}:
+            Console.WriteLine($"Mafia [{activity?.Player?.TurnNumber}][{activity?.Card?.GetType().Name}] {activity?.Player?.User.Name} Bekhabad");
+            Console.WriteLine("## Khabidand ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.Sleep , Audience: StepAudience.Citizen}:
+            Console.WriteLine($"Shahrvand [{activity?.Player?.TurnNumber}][{activity?.Card?.GetType().Name}] {activity?.Player?.User.Name} Bekhabad");
+            Console.WriteLine("## Khabidand ##");
+            Console.ReadLine();
+            break;
+
+        case StepStage.Night when activity is {Type:StepType.NightAct , Audience:StepAudience.Mafia}:
+            Console.WriteLine($"Mafia [{activity?.Player?.TurnNumber}][{activity?.Card?.GetType().Name}] {activity?.Player?.User.Name} Act Khod ra anjam dahad");
+            Console.WriteLine("## Anjam Dad ##");
+            Console.ReadLine();
+            break;
+        
+        case StepStage.Night when activity is {Type:StepType.NightAct , Audience: StepAudience.Citizen}:
+            Console.WriteLine($"Shahrvand [{activity?.Player?.TurnNumber}][{activity?.Card?.GetType().Name}] {activity?.Player?.User.Name} Act Khod ra anjam dahad");
+            Console.WriteLine("## Anjam Dad ##");
+            Console.ReadLine();
+            break;
+        
         default:
             throw new ArgumentOutOfRangeException();
     }

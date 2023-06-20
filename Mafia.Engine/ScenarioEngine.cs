@@ -10,7 +10,7 @@ public class ScenarioEngine
     private readonly IScenario _scenario;
     private readonly GameState _state;
 
-    private readonly List<Step> _interviewScenario = new List<Step>();
+    private readonly List<Step> _scenarioStep = new List<Step>();
 
     public ScenarioEngine(IScenario scenario)
     {
@@ -95,8 +95,7 @@ public class ScenarioEngine
                     {
                         foreach (var player in _state.Players.OrderBy(x => x.TurnNumber))
                         {
-                            activity.SystemAction?.Invoke(_state, player);
-                            
+                            _scenarioStep.Add(new Step(activity.Action,activity.SystemAction , player));
                             order++;
                         }
 
@@ -104,12 +103,10 @@ public class ScenarioEngine
                     }
                     case ActivityAction.PlayerFromCard:
                     {
-                        
                         var player = _state.Players.First(x => x.Card?.Name == activity?.Card?.Name);
-                        
                         activity.SystemAction?.Invoke(_state, player);
                         
-                        _interviewScenario.Add(new Step(activity.Audience, StepAction.None, activity.Type,
+                        _scenarioStep.Add(new Step(activity.Audience, StepAction.None, activity.Type,
                             activity.Stage, player.Card, order: order, player: player,
                             isInterViewDay: activity.IsInterViewDay));
                         order++;

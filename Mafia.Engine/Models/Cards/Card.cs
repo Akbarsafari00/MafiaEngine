@@ -15,6 +15,7 @@ public abstract class Card
     public string Name { get; set; }
     public int Order { get; set; }
     public bool HasInterViewAct { get; set; } = false;
+    public bool IsAWakedInNight { get; set; } = false;
     public string Description { get; set; }
     public CardSide Side { get; set; }
     public bool HasAbility { get; set; }

@@ -2,50 +2,28 @@
 
 namespace Mafia.Engine.Models;
 
-public class Step 
+public class Step
 {
-    public Step(ActivityAction action,Action<GameState, Player>? systemAction , Player? player = null)
+    public Step(StepType type,StateStage stage,StateAudience audience , StateCommand command,
+        Action<ScenarioState, Player>? stateAction = null,
+        Player? player = null,
+        Card? card = null)
     {
-        Action = action;
-        SystemAction = systemAction;
+        Type = type;
+        StateAction = stateAction;
         Player = player;
+        Card = card;
+        Stage = stage;
+        Command = command;
+        Audience = audience;
     }
 
-    public Player? Player { get; set; }
-    public ActivityAction Action { get; set; }
-    public Action<GameState,Player>? SystemAction { get; set; }
-}
-
-
-public enum StepType
-{
-    Note,
-    Speak,
-    Vote,
-    WakeUp,
-    Sleep,
-    NightAct,
-    ShowLike,
-    GoodMorning,
-    CheckVote,
-    Defending,
-    DefendingVote,
-    CheckDefendingVote,
-    LastChangeCard,
-    InterviewSpeak
-}
-public enum StepStage
-{
-    Morning,Day,Evening,Night
-}
-
-public enum ActivityAction
-{
-    System,None,LoopPlayer,PlayerFromCard, LoopDefending
-}
-
-
-public enum StepAudience
-{
-    All,Citizen,CitizenGroup,Mafia,MafiaGroup,CitizenHaveAct,Dead
+    public StepType Type { get; private set; }
+    public StateStage Stage { get; private set; }
+    public StateCommand Command { get; private set; }
+    public StateAudience Audience { get; private set; }
+    public Player? Player { get; private set; }
+    public Card? Card { get; private set; }
+    public Action<ScenarioState, Player>? StateAction { get; private set; }
+    public bool IsInterviewDay { get; set; }
 }

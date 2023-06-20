@@ -1,7 +1,20 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2869cb69_002D000e_002D4453_002Db0d1_002D80a6cbe29916/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=18323254_002D21b1_002D440f_002Daff1_002D82b1ab31577e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GodFatherScenarioTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::9CE12193-1765-4C69-838A-712DC0E05181::net7.0::Mafia.Engine.Test.GodFatherScenarioTest.ShuffleRolesTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::68AF3622-417A-483A-8703-CB3BD018471F::net7.0::Mafia.Tests.GodFatherScenarioTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=9ce12193_002D1765_002D4c69_002D838a_002D712dc0e05181_0023Mafia_002EEngine_002ETesat/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2869cb69_002D000e_002D4453_002Db0d1_002D80a6cbe29916/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::68AF3622-417A-483A-8703-CB3BD018471F::net7.0::Mafia.Tests.GodFatherScenarioTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b31b49c8_002D50a9_002D492e_002D9fb1_002D03c6c10bd7e4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GodFatherScenarioTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::68AF3622-417A-483A-8703-CB3BD018471F::net7.0::Mafia.Tests.GodFatherScenarioTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	</wpf:ResourceDictionary>

@@ -9,5 +9,5 @@ Mafia.Console/bin
 Mafia.Engine/bin
 Mafia.Engine/obj
 
-Mafia.Engine.Tesat/obj
-Mafia.Engine.Tesat/bin
+Mafia.Tests/obj
+Mafia.Tests/bin

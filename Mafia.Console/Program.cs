@@ -305,17 +305,34 @@ var state = engine.ShuffleCards();
 Console.WriteLine($"Stage : {state.Stage}");
 Console.WriteLine($"Audience : {state.Audience}");
 Console.WriteLine($"Command : {state.Command}");
-Console.WriteLine($"CurrentPlayer : {state.CurrentPlayer}");
+PrintInformtion(state);
 
 while (true)
 {
     Console.WriteLine("Press Enter To Next . ");
     Console.ReadLine();
     state = engine.Execute(state);
+    
+    PrintInformtion(state);
+
+}
+
+
+void PrintInformtion(ScenarioState state)
+{
+    Console.WriteLine($"CurrentRound : {engine.CurrentRound.TurnNumber}");
     Console.WriteLine($"Stage : {state.Stage}");
     Console.WriteLine($"Audience : {state.Audience}");
     Console.WriteLine($"Command : {state.Command}");
-    Console.WriteLine($"CurrentPlayer : {state.CurrentPlayer?.User.Name}");
-    Console.WriteLine($"CurrentCard : {state.CurrentPlayer?.Card?.GetType().Name}");
-
+    if (state.CurrentPlayers != null)
+    {
+        foreach (var currentPlayer in state.CurrentPlayers)
+        {
+            Console.WriteLine($"CurrentPlayer : {currentPlayer.User.Name}");
+            Console.WriteLine($"CurrentCard : {currentPlayer.Card?.GetType().Name}");
+        }
+    }
+    
+    
+    
 }

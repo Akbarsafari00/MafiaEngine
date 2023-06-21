@@ -2,7 +2,7 @@
 
 public class LeonTheProfessionalCard : Card
 {
-    public LeonTheProfessionalCard(int order) : base("لئون حرفه ای", CardSide.Citizen, true,order)
+    public LeonTheProfessionalCard(int order, bool wakeUpWithMafia = false) : base("لئون حرفه ای", CardSide.Citizen, true,order,wakeUpWithMafia)
     {
     }
 

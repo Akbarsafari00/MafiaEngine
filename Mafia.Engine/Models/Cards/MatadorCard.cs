@@ -2,7 +2,7 @@
 
 public class MatadorCard : Card
 {
-    public MatadorCard(int order) : base("ماتادور", CardSide.Mafia, true,order)
+    public MatadorCard(int order, bool wakeUpWithMafia = true) : base("ماتادور", CardSide.Mafia, true,order,wakeUpWithMafia)
     {
     }
 

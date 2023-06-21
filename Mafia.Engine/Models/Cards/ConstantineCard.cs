@@ -2,7 +2,7 @@
 
 public class ConstantineCard : Card
 {
-    public ConstantineCard(int order) : base("کنستانتین", CardSide.Citizen, true,order)
+    public ConstantineCard(int order, bool wakeUpWithMafia = false) : base("کنستانتین", CardSide.Citizen, true,order,wakeUpWithMafia)
     {
     }
 

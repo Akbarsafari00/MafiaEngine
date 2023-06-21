@@ -32,7 +32,7 @@ public class GodFatherScenarioTest
     [Test]
     public void TestShuffleCard()
     {
-        Assert.That(_engine.Players.Any(x => x.Card == null), Is.False);
+        Assert.That(_engine.GamePlayers.Any(x => x.Card == null), Is.False);
     }
     
     [Test]
@@ -46,7 +46,7 @@ public class GodFatherScenarioTest
             Assert.That(_state.CurrentPlayer, Is.EqualTo(null));
         });
 
-        foreach (var player in _engine.Players.OrderBy(x=>x.TurnNumber))
+        foreach (var player in _engine.GamePlayers.OrderBy(x=>x.TurnNumber))
         {
             _state = _engine.Execute(_state);
         

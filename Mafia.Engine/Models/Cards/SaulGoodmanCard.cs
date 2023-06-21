@@ -2,7 +2,7 @@
 
 public class SaulGoodmanCard : Card
 {
-    public SaulGoodmanCard(int order) : base("سائول گودمن", CardSide.Mafia, true,order)
+    public SaulGoodmanCard(int order, bool wakeUpWithMafia = true) : base("سائول گودمن", CardSide.Mafia, true,order,wakeUpWithMafia)
     {
     }
 

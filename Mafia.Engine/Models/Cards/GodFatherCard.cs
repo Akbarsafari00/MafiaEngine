@@ -2,7 +2,7 @@
 
 public class GodFatherCard : Card
 {
-    public GodFatherCard(int order) : base("پدرخوانده", CardSide.Mafia, true,order)
+    public GodFatherCard(int order , bool wakeUpWithMafia = true) : base("پدرخوانده", CardSide.Mafia, true,order , wakeUpWithMafia)
     {
     }
 

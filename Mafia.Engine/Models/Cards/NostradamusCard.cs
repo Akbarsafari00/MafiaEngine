@@ -2,7 +2,7 @@
 
 public class NostradamusCard : Card
 {
-    public NostradamusCard(int order) : base("نوستراداموس", CardSide.Independent, true,order , true)
+    public NostradamusCard(int order, bool wakeUpWithMafia = false) : base("نوستراداموس", CardSide.Independent, true,order , wakeUpWithMafia,true)
     {
     }
 

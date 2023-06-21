@@ -6,5 +6,6 @@ public class RoundPlayer
 {
     public Player Player { get; set; }
     public bool IsTalked { get; set; } = false;
+    public bool HasVoteTaken { get; set; } = false;
     public int VoteCount { get; set; } = 0;
 }
